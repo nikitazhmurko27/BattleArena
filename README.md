@@ -14,7 +14,7 @@ When the health of the Computer reaches, for example, 35%, increase its chance o
 The game ends if one of the participants has reached 0 health.
 
 # How to run the application
-1. Install PHP if you haven't installed it before. Instructions: https://www.php.net/manual/en/install.php
+1. Install PHP if you haven't installed it before. Instruction: https://www.php.net/manual/en/install.php
 2. Download the current project.
-3. Open "terminal" and go to the root project folder (cd /your_path/BattleArena/)
+3. Open "terminal" and go to the root project folder (cd /path/to/project/BattleArena/)
 4. Run the application using the next command: php index.php
