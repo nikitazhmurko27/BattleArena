@@ -128,7 +128,7 @@
             //creating an array with possible moves. If health = 100 exclude "heal" skill.
             $arrayMoves = $this->health == 100 ? ['smallHit', 'largeHit'] : ['smallHit', 'largeHit', 'heal'];
             //adding the condition to healing boost
-            if ($this->healBoost !== 0 && $this->getHealthPercent() <= $this->health){
+            if ($this->healBoost !== 0 && $this->getHealthPercent() <= $this->healBoost){
                 $arrayMoves = ['smallHit','largeHit','heal', 'heal'];
             }
             //shuffle the array
@@ -154,5 +154,4 @@
             }
             return $moveResult;
         }
-
     }
