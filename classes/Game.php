@@ -34,7 +34,7 @@
         }
 
         /**
-         * @return array
+         * @return string
          * Choose randomly who will start first
          */
         public function startFirst()
@@ -44,6 +44,12 @@
             return $arr[$startFirstIndex];
         }
 
+        /**
+         * @param int $moveNumber
+         * @param string $startFirst
+         * @return string
+         * Recursive method. If the health of one of the players = 0 -> the game ends, else -> this method is run again.
+         */
         public function battleMove($moveNumber, $startFirst)
         {
             //output move number
@@ -55,8 +61,10 @@
                 if ($moveNumber <= 15){
                     sleep(1);
                 }
+                //Generate move and get result
                 $fistPlayerMoveResult = $this->firstPlayer->generateMove($this->secondPlayer);
                 echo $fistPlayerMoveResult;
+                //Check if the health of enemy = 0 -> the game ends
                 if ($this->secondPlayer->getHealth() < 0)
                 {
                     echo $this->firstPlayer->getName() . " - won the battle!\n";
@@ -66,7 +74,6 @@
                 if ($moveNumber <= 15){
                     sleep(1);
                 }
-                sleep(1);
                 $secondPlayerMoveResult = $this->secondPlayer->generateMove($this->firstPlayer);
                 echo $secondPlayerMoveResult;
                 if ($this->firstPlayer->getHealth() < 0)
@@ -78,7 +85,6 @@
                 if ($moveNumber <= 15){
                     sleep(1);
                 }
-                sleep(1);
                 $fistPlayerMoveResult = $this->secondPlayer->generateMove($this->firstPlayer);
                 echo $fistPlayerMoveResult;
                 if ($this->firstPlayer->getHealth() < 0)
@@ -90,7 +96,6 @@
                 if ($moveNumber <= 15){
                     sleep(1);
                 }
-                sleep(1);
                 $secondPlayerMoveResult = $this->firstPlayer->generateMove($this->secondPlayer);
                 echo $secondPlayerMoveResult;
                 if ($this->secondPlayer->getHealth() < 0)
@@ -103,11 +108,17 @@
             return $this->battleMove($moveNumber, $startFirst);
         }
 
+        /**
+         * Method which will start the game
+         */
         public function startGame()
         {
             $welcomeMessage = $this->welcomeMessage();
+            //Output welcome message
             echo $welcomeMessage;
+            //Get which player will start the game first
             $startFirst = $this->startFirst();
-            $this->battleMove(1,$startFirst);
+            //Run the first move of battle
+            $this->battleMove(1, $startFirst);
         }
     }

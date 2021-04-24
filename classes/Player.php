@@ -2,10 +2,6 @@
 
     namespace Player;
 
-    /**
-     * Class Player
-     */
-
     class Player
     {
         private $name;
@@ -103,7 +99,7 @@
          * @param array $params
          * @return string $result
          */
-        public function outputMoveResult($params)
+        public function getMoveResult($params)
         {
             $type = $params['type'];
             $result = '';
@@ -113,7 +109,7 @@
                     $damage = $params['count'];
                     $enemyName = $params['enemyName'];
                     $enemyHealth = $params['enemyHealth'];
-                    $result = "$this->name dealt damage from a $range range equal to $damage. $enemyName health = $enemyHealth. \n";
+                    $result = "$this->name dealt $damage damage from a $range range. $enemyName health = $enemyHealth. \n";
                     break;
                 case 'heal':
                     $healValue = $params['count'];
@@ -145,15 +141,15 @@
             switch ($moveType){
                 case 'smallHit':
                     $moveParams = $this->hitEnemy('small', $enemy);
-                    $moveResult = $this->outputMoveResult($moveParams);
+                    $moveResult = $this->getMoveResult($moveParams);
                     break;
                 case 'largeHit':
                     $moveParams = $this->hitEnemy('large', $enemy);
-                    $moveResult = $this->outputMoveResult($moveParams);
+                    $moveResult = $this->getMoveResult($moveParams);
                     break;
                 case 'heal':
                     $moveParams = $this->healing();
-                    $moveResult = $this->outputMoveResult($moveParams);
+                    $moveResult = $this->getMoveResult($moveParams);
                     break;
             }
             return $moveResult;
