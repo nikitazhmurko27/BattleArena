@@ -40,7 +40,7 @@
 
         /**
          * Get damage from an enemy
-         * @param $damage int - count of damage
+         * @param int $damage - count of damage
          */
         public function getDamage($damage)
         {
@@ -61,14 +61,14 @@
             $this->health = $healthAfterHeal > 100 ? 100 : $healthAfterHeal;
 
             return [
-                'type' => 'healing',
+                'type' => 'heal',
                 'count' => $healValue,
             ];
         }
 
         /**
-         * @param $range string - small/large
-         * @param $enemy object
+         * @param string $range  - small/large
+         * @param object $enemy
          * @return array
          */
         public function hitEnemy($range, $enemy)
@@ -83,7 +83,32 @@
                 'range' => $range,
                 'count' => $damage,
                 'enemyName' => $enemy->getName(),
+                'enemyHealth' => $enemy->getHealth(),
             ];
+        }
+
+        /**
+         * @param array $params
+         * @return string $result
+         */
+        public function outputMoveResult($params)
+        {
+            $type = $params['type'];
+            $result = '';
+            switch ($type){
+                case 'hit':
+                    $range = $params['range'];
+                    $damage = $params['count'];
+                    $enemyName = $params['enemyName'];
+                    $enemyHealth = $params['enemyHealth'];
+                    $result = "$this->name dealt damage from a $range range equal to $damage. $enemyName health = $enemyHealth. \n";
+                    break;
+                case 'heal':
+                    $healValue = $params['count'];
+                    $result = "$this->name is healed by $healValue units of health. $this->name health = $this->health. \n";
+                    break;
+            }
+            return $result;
         }
 
     }
