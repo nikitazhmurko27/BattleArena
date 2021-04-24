@@ -9,9 +9,9 @@
         private $name;
         private $health = 100;
 
-        //Variables which store min and max value of the damage
-        private $smallDamageRange = [18,25];
-        private $largeDamageRange = [10,35];
+        //Variables which store min and max value of the damage/heal
+        private $smallRange = [18,25];
+        private $largeRange = [10,35];
 
         //Percent of health in which the chance of heal becomes higher than the chance of hitting
         private $healBoost;
@@ -37,4 +37,34 @@
         {
             return $this->health;
         }
+
+        /**
+         * Get damage from an enemy
+         * @param $damage int - count of damage
+         */
+        public function getDamage($damage)
+        {
+            $this->health = $this->health - $damage;
+        }
+
+        /**
+         * Healing
+         * @return array
+         */
+        public function healing()
+        {
+            //Get the value of "heal" from a small range
+            $healValue = rand($this->smallRange[0], $this->smallRange[1]);
+
+            //health value after the heal
+            $healthAfterHeal = $this->health + $healValue;
+            //Player health can't be more than 100. Adding the condition and updating player health
+            $this->health = $healthAfterHeal > 100 ? 100 : $healthAfterHeal;
+
+            return [
+                'type' => 'healing',
+                'count' => $healValue,
+            ];
+        }
+
     }
