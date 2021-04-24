@@ -7,6 +7,8 @@
     class Player
     {
         private $name;
+
+        private $maxHealth = 100;
         private $health = 100;
 
         //Variables which store min and max value of the damage/heal
@@ -39,6 +41,14 @@
         }
 
         /**
+         * @return int player health in percent
+         */
+        public function getHealthPercent()
+        {
+            return (int)(($this->health * 100)/$this->maxHealth);
+        }
+
+        /**
          * Get damage from an enemy
          * @param int $damage - count of damage
          */
@@ -58,7 +68,7 @@
             //health value after the heal
             $healthAfterHeal = $this->health + $healValue;
             //Player health can't be more than 100. Adding the condition and updating player health
-            $this->health = $healthAfterHeal > 100 ? 100 : $healthAfterHeal;
+            $this->health = $healthAfterHeal > $this->maxHealth ? $this->maxHealth : $healthAfterHeal;
 
             return [
                 'type' => 'heal',
@@ -109,6 +119,42 @@
                     break;
             }
             return $result;
+        }
+
+        /**
+         * @param object $enemy
+         * @return string
+         */
+        public function generateMove($enemy)
+        {
+            //creating an array with possible moves. If health = 100 exclude "heal" skill.
+            $arrayMoves = $this->health == 100 ? ['smallHit', 'largeHit'] : ['smallHit', 'largeHit', 'heal'];
+            //adding the condition to healing boost
+            if ($this->healBoost !== 0 && $this->getHealthPercent() <= $this->health){
+                $arrayMoves = ['smallHit','largeHit','heal', 'heal'];
+            }
+            //shuffle the array
+            shuffle($arrayMoves);
+            //get the move index
+            $moveIndex = array_rand($arrayMoves, 1);
+            $moveType = $arrayMoves[$moveIndex];
+
+            $moveResult = '';
+            switch ($moveType){
+                case 'smallHit':
+                    $moveParams = $this->hitEnemy('small', $enemy);
+                    $moveResult = $this->outputMoveResult($moveParams);
+                    break;
+                case 'largeHit':
+                    $moveParams = $this->hitEnemy('large', $enemy);
+                    $moveResult = $this->outputMoveResult($moveParams);
+                    break;
+                case 'heal':
+                    $moveParams = $this->healing();
+                    $moveResult = $this->outputMoveResult($moveParams);
+                    break;
+            }
+            return $moveResult;
         }
 
     }
