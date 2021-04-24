@@ -90,8 +90,6 @@
                 'type' => 'hit',
                 'range' => $range,
                 'count' => $damage,
-                'enemyName' => $enemy->getName(),
-                'enemyHealth' => $enemy->getHealth(),
             ];
         }
 
@@ -107,13 +105,11 @@
                 case 'hit':
                     $range = $params['range'];
                     $damage = $params['count'];
-                    $enemyName = $params['enemyName'];
-                    $enemyHealth = $params['enemyHealth'];
-                    $result = "$this->name dealt $damage damage from a $range range. $enemyName health = $enemyHealth. \n";
+                    $result = "$this->name dealt $damage damage from a $range range.\n";
                     break;
                 case 'heal':
                     $healValue = $params['count'];
-                    $result = "$this->name is healed by $healValue units of health. $this->name health = $this->health. \n";
+                    $result = "$this->name is healed by $healValue units of health.\n";
                     break;
             }
             return $result;

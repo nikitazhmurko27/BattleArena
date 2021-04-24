@@ -45,6 +45,36 @@
         }
 
         /**
+         * @param string $startFirst
+         * Output the players health after the move
+         */
+        public function outputPlayersHealth($startFirst)
+        {
+            sleep(1);
+            echo "****** Move Results: *****\n";
+            if ($startFirst == 'first') {
+                sleep(1);
+                echo $this->firstPlayer->getName() . " health=" . $this->firstPlayer->getHealth() . "\n";
+                echo $this->secondPlayer->getName() . " health=" . $this->secondPlayer->getHealth() . "\n";
+            }else{
+                sleep(1);
+                echo $this->secondPlayer->getName() . " health=" . $this->secondPlayer->getHealth() . "\n";
+                echo $this->firstPlayer->getName() . " health=" . $this->firstPlayer->getHealth() . "\n";
+            }
+            echo "*********************\n";
+        }
+
+        /**
+         * @param object $player
+         * Output the winners
+         */
+        public function outputWinner($player)
+        {
+            echo "*********************\n";
+            echo $player->getName() . " - won the battle!\n";
+        }
+
+        /**
          * @param int $moveNumber
          * @param string $startFirst
          * @return string
@@ -65,9 +95,9 @@
                 $fistPlayerMoveResult = $this->firstPlayer->generateMove($this->secondPlayer);
                 echo $fistPlayerMoveResult;
                 //Check if the health of enemy = 0 -> the game ends
-                if ($this->secondPlayer->getHealth() < 0)
+                if ($this->secondPlayer->getHealth() <= 0)
                 {
-                    echo $this->firstPlayer->getName() . " - won the battle!\n";
+                    $this->outputWinner($this->firstPlayer);
                     return '';
                 }
 
@@ -76,9 +106,9 @@
                 }
                 $secondPlayerMoveResult = $this->secondPlayer->generateMove($this->firstPlayer);
                 echo $secondPlayerMoveResult;
-                if ($this->firstPlayer->getHealth() < 0)
+                if ($this->firstPlayer->getHealth() <= 0)
                 {
-                    echo $this->secondPlayer->getName() . " - won the battle!\n";
+                    $this->outputWinner($this->secondPlayer);
                     return '';
                 }
             }else{
@@ -87,9 +117,9 @@
                 }
                 $fistPlayerMoveResult = $this->secondPlayer->generateMove($this->firstPlayer);
                 echo $fistPlayerMoveResult;
-                if ($this->firstPlayer->getHealth() < 0)
+                if ($this->firstPlayer->getHealth() <= 0)
                 {
-                    echo $this->secondPlayer->getName() . " - won the battle!\n";
+                    $this->outputWinner($this->secondPlayer);
                     return '';
                 }
 
@@ -98,12 +128,13 @@
                 }
                 $secondPlayerMoveResult = $this->firstPlayer->generateMove($this->secondPlayer);
                 echo $secondPlayerMoveResult;
-                if ($this->secondPlayer->getHealth() < 0)
+                if ($this->secondPlayer->getHealth() <= 0)
                 {
-                    echo $this->firstPlayer->getName() . " - won the battle!\n";
+                    $this->outputWinner($this->firstPlayer);
                     return '';
                 }
             }
+            $this->outputPlayersHealth($startFirst);
             $moveNumber++;
             return $this->battleMove($moveNumber, $startFirst);
         }
