@@ -55,7 +55,6 @@
         {
             //Get the value of "heal" from a small range
             $healValue = rand($this->smallRange[0], $this->smallRange[1]);
-
             //health value after the heal
             $healthAfterHeal = $this->health + $healValue;
             //Player health can't be more than 100. Adding the condition and updating player health
@@ -64,6 +63,26 @@
             return [
                 'type' => 'healing',
                 'count' => $healValue,
+            ];
+        }
+
+        /**
+         * @param $range string - small/large
+         * @param $enemy object
+         * @return array
+         */
+        public function hitEnemy($range, $enemy)
+        {
+            //Get the damage
+            $damage = $range === 'small' ? rand($this->smallRange[0] , $this->smallRange[1]) : rand($this->largeRange[0], $this->largeRange[1]);
+            //Enemy get the damage
+            $enemy->getDamage($damage);
+
+            return[
+                'type' => 'hit',
+                'range' => $range,
+                'count' => $damage,
+                'enemyName' => $enemy->getName(),
             ];
         }
 
